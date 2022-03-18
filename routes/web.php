@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +17,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/test', function () {
-    return ('welcome111');
+Route::get('/auth', 'AuthController');
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['role:user']], function() {
+    Route::group(['namespace' => 'Main'], function () {
+        Route::get('/', 'IndexController')->name('admin.index');
+
+    });
 });
 
+//});
+Route::get('/test', 'TestController@index');
+
+
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
